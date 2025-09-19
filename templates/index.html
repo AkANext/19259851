@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="upload-section">
+    <h1>Upload et billede af en frugt</h1>
+
+    <div class="upload-container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput" class="button">Vælg billede</label>
+            <input type="file" id="fileInput" name="image" accept="image/*" required>
+            <button type="submit" id="sendBtn" disabled class="cta">Send billede</button>
+        </form>
+    </div>
+
+    <!-- Forhåndsvisning af billede -->
+    <div id="preview" class="hidden"></div>
+
+    <div id="progress" class="hidden">
+        <div class="bar"></div>
+    </div>
+
+    <!-- Her vises resultatet fra serveren -->
+    <div id="result" class="hidden"></div>
+</main>
+
+<!-- Sektion med vejledning til brugeren -->
+<section id="how" class="how">
+    <h2>Sådan virker det</h2>
+    <ol>
+        <li>Tryk på <strong>Vælg billede</strong> og vælg en frugt</li>
+        <li>Klik <strong>Send billede</strong></li>
+        <li>Serveren analyserer billedet og viser frugtens navn og næringsindhold</li>
+    </ol>
+</section>
+
+<script>
+    // Hent referencer til HTML-elementer
+    const fileInput = document.getElementById('fileInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const preview = document.getElementById('preview');
+    const result = document.getElementById('result');
+    const progress = document.getElementById('progress');
+    const bar = progress.querySelector('.bar');
+    const formEl = document.getElementById('uploadForm');
+
+    // Vis forhåndsvisning når der vælges en fil
+    fileInput.addEventListener('change', () => {
+        const f = fileInput.files[0];
+        if (!f) return;
+        const url = URL.createObjectURL(f);
+        preview.classList.remove('hidden');
+        preview.innerHTML = `<img src="${url}" alt="preview"/>`;
+        sendBtn.disabled = false; // Aktiver send-knappen
+    });
+
+    formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const f = fileInput.files[0];
+        if (!f) return;
+
+        const form = new FormData(formEl);
+
+        progress.classList.remove('hidden');
+        bar.style.width = '30%';
+
+        // Send billedet til serveren
+        const r = await fetch('/predict', { method: 'POST', body: form });
+        bar.style.width = '70%';
+        const data = await r.json();
+        bar.style.width = '100%';
+        setTimeout(() => progress.classList.add('hidden'), 300);
+
+        // Hvis der er fejl, vis fejlbesked
+        if (data.error) {
+            result.classList.remove('hidden');
+            result.innerHTML = `<h2>Fejl</h2><p>${data.error}</p>`;
+            return;
+        }
+
+        // Hent næringsdata og vitaminer
+        const n = data.nutrition;
+        const vitaminer = (n?.vitaminer || []).map(v => `<span class="chip">${v}</span>`).join(' ');
+
+        // Vis resultatet
+        result.classList.remove('hidden');
+        result.innerHTML = `
+            <div class="result-head">
+                <h2>${n?.navn || data.label}</h2>
+                <span class="badge">${n?.per || ''}</span>
+            </div>
+            <p class="muted">${n?.beskrivelse || ''}</p>
+            <div class="grid">
+                <div class="metric"><span>Kcal</span><strong>${n?.kcal ?? '–'}</strong></div>
+                <div class="metric"><span>Kulhydrat</span><strong>${n?.kulhydrat ?? '–'} g</strong></div>
+                <div class="metric"><span>Protein</span><strong>${n?.protein ?? '–'} g</strong></div>
+                <div class="metric"><span>Fedt</span><strong>${n?.fedt ?? '–'} g</strong></div>
+                <div class="metric"><span>Fiber</span><strong>${n?.fiber ?? '–'} g</strong></div>
+                <div class="metric"><span>Vitamin</span><strong>${n?.vitamin_ ?? '–'} mg</strong></div>
+            </div>
+            <div class="vitamins">${vitaminer}</div>
+        `;
+    });
+</script>
+{% endblock %}
