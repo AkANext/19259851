@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="da">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Frugtgenkender</title>
+    <!-- Forbindelse til Google Fonts for at hente skrifttype -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Importerer Inter-skrifttypen -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Link til projektets CSS-fil -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Topbar med logo -->
+    <header class="topbar">
+        <div class="container row">
+            <div class="brand">
+                <!-- SVG-logo for Frugtgenkender -->
+                <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#556B2F" stroke-width="2" fill="#FA7F1C"/>
+                    <path d="M12 5c.8-1.7 2.2-2.5 4-2" stroke="#3d3c21" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="9" cy="13" r="1.2" fill="#fff"/>
+                    <circle cx="14.5" cy="11" r="1.6" fill="#fff"/>
+                </svg>
+                <span>Frugtgenkender</span>
+            </div>
+            <nav>
+                <!-- Link til vejledning på siden -->
+                <a href="#how">Sådan virker det</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hovedindhold, hvor undersider kan indsætte deres indhold -->
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
