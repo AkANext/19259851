@@ -1,0 +1,272 @@
+:root {
+    /* Definerer farver og andre variabler til hele siden */
+    --primary: #556B2F; /* Primær farve (olivengrøn) */
+    --secondary: #887f5a; /* Sekundær farve (varm neutral) */
+    --accent: #FA7F1C; /* Accentfarve (orange) */
+    --bg: #f6f0eb; /* Baggrundsfarve (lys) */
+    --ink: #3d3c21; /* Tekstfarve (mørk) */
+    --radius: 1.25rem; /* Standard hjørneradius */
+    --shadow: 0 10px 30px rgba(0, 0, 0, .08); /* Standard skygge */
+}
+
+/* Gør at padding og border ikke øger elementets bredde/højde */
+* {
+    box-sizing: border-box;
+}
+
+/* Grundopsætning for body */
+body {
+    margin: 0;
+    font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+}
+
+/* Centrerer indholdet og sætter max bredde */
+.container {
+    width: min(1100px, 92%);
+    margin-inline: auto;
+}
+
+/* Rækker med flex layout til at placere elementer side om side */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Topbar (øverste bjælke) */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(0deg, rgba(0, 0, 0, .0), rgba(0, 0, 0, .0)), var(--primary);
+    color: #fff;
+}
+
+/* logo i topbaren */
+.topbar .brand {
+    display: flex;
+    gap: .6rem;
+    align-items: center;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+/* Logo billede i topbaren */
+.topbar img {
+    width: 28px;
+    height: 28px;
+}
+
+/* Links i topbaren */
+.topbar nav a {
+    color: #fff;
+    margin-left: 1rem;
+    opacity: .95;
+    text-decoration: none;
+}
+
+/* Padding til containeren i topbaren */
+.topbar .container {
+    padding: .8rem 0;
+}
+
+
+.hero {
+    padding: 2.2rem 0;
+}
+
+
+.hero h1 {
+    font-size: clamp(1.8rem, 2.8vw, 3rem);
+    line-height: 1.1;
+    margin: 0 0 .6rem;
+}
+
+/* Accentfarve til tekst */
+.hero .accent {
+    color: var(--accent);
+}
+
+
+.hero p {
+    color: #3d3c21cc;
+}
+
+
+.card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.1rem;
+    margin: .8rem 0;
+}
+
+/* Upload sektion med grid layout */
+.upload {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+}
+
+/* Knapper */
+.button {
+    background: var(--secondary);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: .8rem 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Effekt når musen holdes over knappen */
+.button:hover {
+    filter: brightness(.95);
+}
+
+/* Call-to-action knap */
+.cta {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: .9rem;
+    padding: .9rem 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Deaktiveret call-to-action knap */
+.cta:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Skjuler standard filinput */
+input[type="file"] {
+    display: none;
+}
+
+/* Forhåndsvisning af billede */
+.preview img {
+    max-width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    border-radius: .9rem;
+    border: 3px solid #00000010;
+}
+
+/* Klasse til at skjule elementer */
+.hidden {
+    display: none;
+}
+
+/* Fremviser en progress bar */
+.progress {
+    max-width: 400px;
+    height: 10px;
+    background: #00000010;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+/* Selve baren i progress bar */
+.progress .bar {
+    height: 100%;
+    background: var(--primary);
+    transition: width .3s ease;
+}
+
+/* Resultatvisning */
+.result-head {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+
+.badge {
+    background: var(--primary);
+    color: #fff;
+    padding: .2rem .5rem;
+    border-radius: 999px;
+    font-size: .8rem;
+}
+
+/* Grid layout til resultater */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .6rem;
+    margin: .8rem 0;
+}
+
+
+.metric {
+    background: #ffffff;
+    border: 1px solid #00000010;
+    border-radius: .9rem;
+    padding: .8rem;
+    box-shadow: var(--shadow);
+}
+
+
+.metric span {
+    color: #00000080;
+    font-size: .85rem;
+}
+
+
+.metric strong {
+    display: block;
+    font-size: 1.3rem;
+}
+
+
+.chip {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: .3rem .6rem;
+    margin-right: .3rem;
+}
+
+/* Nedtonet tekst */
+.muted {
+    color: #00000080;
+}
+
+/* How sektion (vejledning) */
+.how ol {
+    margin: .3rem 1.2rem;
+}
+
+.how {
+    padding-bottom: 3rem;
+}
+
+/* Forhåndsvisning af billede */
+#preview img {
+    border-radius: .9rem;
+    max-width: 400px;
+}
+
+
+#uploadForm {
+    padding-bottom: 1.5rem;
+}
+
+
+.footer {
+    opacity: .7;
+    padding: 2rem 0;
+}
+
+
+@media (min-width: 700px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
